@@ -1,3 +1,4 @@
+import mysql.connector
 while True:
     print("\nWelcome To Army Public School")
     d = input("Enter Your Category eg. Student or Staff: ").strip().capitalize()
@@ -44,12 +45,31 @@ while True:
                     continue
 
                 if c == 5:
-                    print("Data Types:\n Numbers\n  1.Integer\n  2.Float\n  3.Complex\n  4.Boolean")
-                    print("Sequences:\n  1.String\n  2.Tuple\n  3.List\nMapping:\n  1.Dictionary")
-                    print("Mutable - Values can be changed")
-                    print("Immutable - Values can't be changed")
-                    print("Variables - Memory storage")
-                    print("Operators - +, -, >, <, /, is, not, and, or, etc.")
+                    # connect to MySQL
+                    conn = mysql.connector.connect( 
+                        host="localhost",
+                        user="root",
+                        passwd="Alpha@2008",
+                        database="Datatypes"
+                        )
+
+                    cursor = conn.cursor()
+
+                    # read data from table
+                    cursor.execute("SELECT * FROM python_datatypes")
+                    
+                    # fetch all rows
+                    rows = cursor.fetchall()
+                    
+                    print("SNo | DataType | Representation | Description")
+                    print("---------------------------------------------------------------")
+                    
+                    for row in rows:
+                        print(row[0], "|", row[1], "|", row[2], "|", row[3])
+                    
+                    # close connection
+                    cursor.close()
+                    conn.close()
 
                 elif c == 6:
                     print("Tokens: smallest units in a program")
